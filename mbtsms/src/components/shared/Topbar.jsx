@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { Sling as Hamburger } from 'hamburger-react';
 import { useTheme } from '../../context/ThemeContext';
@@ -14,8 +14,7 @@ const TopBar = ({ onToggleSidebar, sidebarCollapsed }) => {
     navigate('/login');
   };
 
-  const logoSrc = theme === 'light' ? '../asset/logo.png' : '../asset/logo2.png';
-
+const logoSrc = theme === 'light' ? '/asset/logo.png' : '/asset/logo2.png';
   return (
     <header
       className={`shadow sticky top-0 z-100
@@ -47,14 +46,15 @@ const TopBar = ({ onToggleSidebar, sidebarCollapsed }) => {
           </div>
 
           <span
-            className={`text-xl font-bold transition ${
-              theme === 'dark'
+            className={`text-xl font-bold transition hidden md:inline ${
+                theme === 'dark'
                 ? 'text-mbts-orange'
                 : 'text-mbts-orange'
             }`}
-          >
+            >
             MS. Barkat Transport Service
-          </span>
+        </span>
+
         </div>
 
 
@@ -101,7 +101,7 @@ const TopBar = ({ onToggleSidebar, sidebarCollapsed }) => {
 
           <button
             onClick={toggleTheme}
-            className={`px-3 py-1 h-10 w-10 text-lg transition ${
+            className={`px-3 py-1 h-15 w-15 text-lg transition ${
               theme === 'dark'
                 ? 'bg-transparent text-white hover:text-mbts-blue'
                 : 'bg-transparent text-gray-900 hover:text-mbts-blue'

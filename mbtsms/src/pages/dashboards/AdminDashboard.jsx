@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TopBar from '../../components/shared/Topbar';
 import SidebarWrapper from '../../components/shared/Sidebar';
-
+import Footer from '../../components/shared/Footer';
 const AdminDashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
 
@@ -36,6 +36,7 @@ const AdminDashboard = () => {
           </div>
         </main>
       </div>
+      <Footer />
     </div>
   );
 };

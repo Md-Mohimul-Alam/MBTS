@@ -17,6 +17,7 @@ import {
   FaUserShield,
   FaWrench,
   FaRoad,
+  FaCalculator,
 } from 'react-icons/fa';
 import { MdExpandMore } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -37,24 +38,24 @@ const SidebarMenu = ({ collapsed }) => {
       label: 'Branch Management',
       icon: <FaBuilding />,
       children: [
-        { label: 'View Branches', path: '/branches' },
-        { label: 'Add Branch', path: '/branches/add' },
+        { label: 'View Branches', path: '/app/branches' },
+        { label: 'Add Branch', path: '/app/branches/add' },
       ],
     },
     {
       label: 'Client Management',
       icon: <FaUsers />,
       children: [
-        { label: 'Clients', path: '/clients' },
-        { label: 'Add Client', path: '/clients/add' },
+        { label: 'Clients', path: '/app/clients' },
+        { label: 'Add Client', path: '/app/clients/add' },
       ],
     },
     {
       label: 'Employee Management',
       icon: <FaUserShield />,
       children: [
-        { label: 'Employees', path: '/employees' },
-        { label: 'Add Employee', path: '/employees/add' },
+        { label: 'Employees', path: '/app/employees' },
+        { label: 'Add Employee', path: '/app/employees/add' },
       ],
     },
     {
@@ -129,6 +130,12 @@ const SidebarMenu = ({ collapsed }) => {
         { label: 'Assign Trip', path: '/trips/assign' },
       ],
     },
+    {
+      label: 'Calculator',
+      icon: <FaCalculator />,
+      children: [
+        { label: 'Estimate', path: '/app/calculator/CalculatorPage' },      ],
+    },
   ];
 
   const itemClass = (index) => `
@@ -154,30 +161,42 @@ const SidebarMenu = ({ collapsed }) => {
   const sidebarBg = isDark ? 'bg-mbts-blue' : 'bg-white';
 
   return (
-    <Sidebar collapsed={collapsed} className={`h-full pt-11 ${sidebarBg}`}>
+    <Sidebar collapsed={collapsed} className={`h-full mb-12 bottom-12 ${sidebarBg}`}>
       <Menu className={`h-full ${sidebarBg}`}>
-        {menuItems.map((item, i) => (
-          <SubMenu
-            key={i}
-            label={item.label}
-            icon={item.icon}
-            className={itemClass(i)}
-            onOpenChange={() => handleToggle(i)}
-            defaultOpen={false}
-          >
-            {item.children.map((child, j) => (
-              <MenuItem
-                key={j}
-                icon={child.icon}
-                component={<Link to={child.path} />}
-                className={subItemClass}
-              >
-                {child.label}
-              </MenuItem>
-            ))}
-          </SubMenu>
-        ))}
-      </Menu>
+        {menuItems.map((item, i) =>
+            collapsed ? (
+            // Collapsed view — just top-level icons (disable toggle)
+            <MenuItem
+                key={i}
+                icon={item.icon}
+                className={itemClass(i)}
+                title={item.label} // Tooltip on hover
+            />
+            ) : (
+            // Expanded view — full SubMenu with children
+            <SubMenu
+                key={i}
+                label={item.label}
+                icon={item.icon}
+                className={itemClass(i)}
+                onOpenChange={() => handleToggle(i)}
+                defaultOpen={false}
+            >
+                {item.children.map((child, j) => (
+                <MenuItem
+                    key={j}
+                    icon={child.icon}
+                    component={<Link to={child.path} />}
+                    className={subItemClass}
+                >
+                    {child.label}
+                </MenuItem>
+                ))}
+            </SubMenu>
+            )
+        )}
+        </Menu>
+
     </Sidebar>
   );
 };

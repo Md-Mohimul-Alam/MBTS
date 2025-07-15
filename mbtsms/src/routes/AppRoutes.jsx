@@ -11,6 +11,14 @@ import AdminDashboard from '../pages/dashboards/AdminDashboard';
 import ManagerDashboard from '../pages/dashboards/ManagerDashboard';
 import EmployeeDashboard from '../pages/dashboards/EmployeesDashboard';
 
+import BranchList from '../components/branches/BranchList';
+import BranchForm from '../components/branches/BranchForm';
+import EmployeeForm from '../components/employees/EmployeeForm';
+import EmployeeList from '../components/employees/EmployeeList';
+import ClientForm from '../components/clients/ClientForm';
+import ClientList from '../components/clients/ClientList';
+import CalculatorPage from '../components/Calculator/CalculatorPage'; // Assuming this is the correct path for the calculator page
+
 import Vehicles from '../pages/Vehicles';
 import Orders from '../pages/Orders';
 import Transactions from '../pages/Transactions';
@@ -37,6 +45,16 @@ const AppRoutes = () => {
       <Route path="/app/manager-dashboard" element={<ManagerDashboard />} />
       <Route path="/app/employee-dashboard" element={<EmployeeDashboard />} />
 
+      {/* Private Routes */}
+      <Route path="/app/branches" element={<BranchList />}/>
+      <Route path="/app/branches/add" element={<BranchForm  />} />
+
+      <Route path="/app/clients/add" element={<ClientForm />} />
+      <Route path="/app/clients" element={<ClientList />} />
+      <Route path="/app/employees/add" element={<EmployeeForm />} />
+      <Route path="/app/employees" element={<EmployeeList />} />
+
+      <Route path="/app/calculator/CalculatorPage" element={<CalculatorPage />} />
       
       <Route
         path="/app/vehicles"
