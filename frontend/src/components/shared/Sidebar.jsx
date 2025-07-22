@@ -50,11 +50,27 @@ const SidebarMenu = ({ collapsed }) => {
       ],
     },
     {
+      label: 'CNF Management',
+      icon: <FaUsers />,
+      children: [
+        { label: 'CNF List', path: '/app/cnfs' },
+        { label: 'Add CNF', path: '/app/cnfs/add' },
+      ],
+    },
+    {
       label: 'Employee Management',
       icon: <FaUserShield />,
       children: [
         { label: 'Employees', path: '/app/employees' },
         { label: 'Add Employee', path: '/app/employees/add' },
+      ],
+    },
+    {
+      label: 'Loading-Point Management',
+      icon: <FaRoad />,
+      children: [
+        { label: 'Loading Point List', path: '/app/loading-points/list' },
+        { label: 'Add Loading Point', path: '/app/loading-points/add' },
       ],
     },
     {
@@ -117,14 +133,6 @@ const SidebarMenu = ({ collapsed }) => {
       ],
     },
     {
-      label: 'Trip Management',
-      icon: <FaRoad />,
-      children: [
-        { label: 'Trip Logs', path: '/trips/logs' },
-        { label: 'Assign Trip', path: '/trips/assign' },
-      ],
-    },
-    {
       label: 'Calculator',
       icon: <FaCalculator />,
       children: [
@@ -155,7 +163,7 @@ const SidebarMenu = ({ collapsed }) => {
   const sidebarBg = isDark ? 'bg-mbts-blue' : 'bg-white';
 
   return (
-    <Sidebar collapsed={collapsed} className={`h-full mb-12 bottom-12 ${sidebarBg}`}>
+    <Sidebar collapsed={collapsed} className={`h-full mt-12 mb-12 pb-12 bottom-12 ${sidebarBg}`}>
       <Menu className={`h-full ${sidebarBg}`}>
         {menuItems.map((item, i) =>
             collapsed ? (

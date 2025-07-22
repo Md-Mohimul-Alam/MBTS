@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import TopBar from '../shared/Topbar';
 import SidebarWrapper from '../shared/Sidebar';
-
+import Footer from '../shared/Footer';
 const ClientForm = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
@@ -85,6 +85,7 @@ const ClientForm = () => {
             </form>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );

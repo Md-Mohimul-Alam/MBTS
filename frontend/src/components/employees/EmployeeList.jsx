@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import TopBar from '../shared/Topbar';
 import SidebarWrapper from '../shared/Sidebar';
+import Footer from '../shared/Footer';
 
 const initialEmployees = [
   { id: 1, name: 'Mohim Reza', position: 'Developer', contact: '01712345678', email: 'mohim@example.com', joinedAt: '2022-05-10' },
@@ -85,6 +86,7 @@ const EmployeeList = () => {
           </div>
 
         </div>
+        <Footer />
       </div>
     </div>
   );

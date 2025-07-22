@@ -3,11 +3,24 @@ import { useTheme } from '../../context/ThemeContext';
 import { Link } from 'react-router-dom';
 import TopBar from '../shared/Topbar';
 import SidebarWrapper from '../shared/Sidebar';
-
-// Initial client data
+import Footer from '../shared/Footer';
+// Updated client data
 const initialClients = [
-  { id: 1, name: 'Chattogram Client', manager: 'Mr. Karim', contact: '01712345678', address: 'Agrabad', establishedAt: '2022-01-15' },
-  { id: 2, name: 'Dhaka Client', manager: 'Ms. Jahanara', contact: '01898765432', address: 'Uttara', establishedAt: '2023-03-10' },
+  // Same owner, different banner
+  { id: 1, name: 'Gram Bangla', manager: 'Mr. Sohel', contact: '01710000001', address: 'Narayanganj', establishedAt: '2023-01-01' },
+  { id: 2, name: 'Amin Metal', manager: 'Mr. Sohel', contact: '01710000001', address: 'Narayanganj', establishedAt: '2023-01-01' },
+
+  { id: 3, name: 'Bukhari Steel', manager: 'Mr. Hossain', contact: '01710000002', address: 'Gazipur', establishedAt: '2022-11-20' },
+  { id: 4, name: 'A.R Trade', manager: 'Mr. Azad', contact: '01710000003', address: 'Tongi', establishedAt: '2024-02-10' },
+  { id: 5, name: 'Rumman Trade', manager: 'Mr. Rumman', contact: '01710000004', address: 'Demra', establishedAt: '2023-07-15' },
+  { id: 6, name: 'Bhawal Steel', manager: 'Mr. Islam', contact: '01710000005', address: 'Bhawal', establishedAt: '2022-09-05' },
+  { id: 7, name: 'Jashim & Brothers', manager: 'Mr. Jashim', contact: '01710000006', address: 'Keraniganj', establishedAt: '2023-04-01' },
+
+  // Same owner, different banner
+  { id: 8, name: 'SS Steel', manager: 'Mr. Rubel', contact: '01710000007', address: 'Narsingdi', establishedAt: '2022-05-12' },
+  { id: 9, name: 'Rubel Enterprises', manager: 'Mr. Rubel', contact: '01710000007', address: 'Narsingdi', establishedAt: '2022-05-12' },
+
+  { id: 10, name: 'Makkah Transport (Local)', manager: 'Mr. Kamal', contact: '01710000008', address: 'Savar', establishedAt: '2021-12-01' },
 ];
 
 const ClientList = () => {
@@ -72,13 +85,10 @@ const ClientList = () => {
                         className={`p-3 text-left rounded border px-2 py-1 text-sm w-full ${isDark ? 'bg-mbts-dark text-white' : 'bg-gray-100 text-gray-700'}`}
                       />
                     </td>
-
                     <td className="p-3 text-center">
                       <Link
                         to={`/app/clients/edit/${client.id}`}
-                        className={`text-sm underline ${
-                          isDark ? 'text-mbts-orange' : 'text-blue-600'
-                        }`}
+                        className={`text-sm underline ${isDark ? 'text-mbts-orange' : 'text-blue-600'}`}
                       >
                         Edit
                       </Link>
@@ -89,7 +99,7 @@ const ClientList = () => {
             </table>
           </div>
         </div>
-
+        <Footer />
       </div>
     </div>
   );

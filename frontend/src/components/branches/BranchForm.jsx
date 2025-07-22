@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import TopBar from '../shared/Topbar';
 import SidebarWrapper from '../shared/Sidebar';
-
+import Footer from '../shared/Footer';
 const BranchForm = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
@@ -84,6 +84,7 @@ const BranchForm = () => {
             </form>
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );

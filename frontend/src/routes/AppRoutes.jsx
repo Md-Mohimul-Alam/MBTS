@@ -17,6 +17,10 @@ import EmployeeForm from '../components/employees/EmployeeForm';
 import EmployeeList from '../components/employees/EmployeeList';
 import ClientForm from '../components/clients/ClientForm';
 import ClientList from '../components/clients/ClientList';
+import CNFForm from '../components/cnf/CNFForm';
+import CNFList from '../components/cnf/CNFList';
+import LoadingPointForm from '../components/loading/LoadingPointForm';
+import LoadingPointList from '../components/loading/LoadingPointList';
 import CalculatorPage from '../components/Calculator/CalculatorPage'; // Assuming this is the correct path for the calculator page
 
 import BankForm from '../components/banks/BankForm';
@@ -31,7 +35,6 @@ import BankStatements from '../pages/BankStatements';
 import Dues from '../pages/Dues';
 import Notifications from '../pages/Notifications';
 import Reports from '../pages/Reports';
-import Trips from '../pages/Trips';
 import Maintenance from '../pages/Maintenance';
 import Settings from '../pages/Settings';
 import Roles from '../pages/Roles';
@@ -56,6 +59,8 @@ const AppRoutes = () => {
 
       <Route path="/app/clients/add" element={<ClientForm />} />
       <Route path="/app/clients" element={<ClientList />} />
+      <Route path="/app/cnfs/add" element={<CNFForm />} />
+      <Route path="/app/cnfs" element={<CNFList />} />
       <Route path="/app/employees/add" element={<EmployeeForm />} />
       <Route path="/app/employees" element={<EmployeeList />} />
       
@@ -63,7 +68,8 @@ const AppRoutes = () => {
       <Route path="/app/banks/statements" element={<Statements />} />
       <Route path="/app/banks/transactions/add" element={<BankTransactionForm />} />
       <Route path='/app/banks/transactions/list' element={<BankTransactionView />} />
-
+      <Route path="/app/loading-points/add" element={<LoadingPointForm />} />
+      <Route path="/app/loading-points/list" element={<LoadingPointList />} />
 
       <Route path="/app/calculator/CalculatorPage" element={<CalculatorPage />} />
       
@@ -123,14 +129,7 @@ const AppRoutes = () => {
           </PrivateRoute>
         }
       />
-      <Route
-        path="/app/trips"
-        element={
-          <PrivateRoute rolesAllowed={['Branch Manager', 'Logistics Staff']}>
-            <Trips />
-          </PrivateRoute>
-        }
-      />
+      
       <Route
         path="/app/maintenance"
         element={
