@@ -13,7 +13,7 @@ const initialLoadingPoints = [
 ];
 
 const LoadingPointList = () => {
-  const [points, setPoints] = useState(initialLoadingPoints);
+  const [points] = useState(initialLoadingPoints);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 

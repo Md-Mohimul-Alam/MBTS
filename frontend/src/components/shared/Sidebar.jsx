@@ -92,12 +92,12 @@ const SidebarMenu = ({ collapsed }) => {
         { label: 'Bank Transactions', path: '/app/banks/transactions/list' },
       ],
     },
-    {
+   {
       label: 'Due Tracking',
       icon: <FaTasks />,
       children: [
-        { label: 'All Dues', path: '/dues' },
-        { label: 'Due Reports', path: '/dues/reports' },
+        { label: 'All Dues', path: '/app/dues' },
+        { label: 'Due Reports', path: '/app/dues/reports' },
       ],
     },
     {

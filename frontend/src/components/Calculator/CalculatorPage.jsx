@@ -172,7 +172,7 @@ const CalculatorPage = () => {
           </div>
 
           {/* Main Content Area */}
-          <div className='h-full w-full relative  '> 
+          <div className='h-full w-full relative overflow-y-auto mb-10'> 
             <div className='flex-1 flex flex-col h-full overflow-y-auto'>
               <div className="flex justify-center items-start  overflow-auto w-full">
                 <div

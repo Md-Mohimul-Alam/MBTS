@@ -1,5 +1,3 @@
-// src/pages/Login.jsx
-
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -16,38 +14,56 @@ const Login = () => {
   const [error, setError] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (email && password && selectedRole) {
-      const user = {
-        name: 'Demo User',
-        role: selectedRole,
-        token: 'demo-token',
-        email,
-      };
+    if (!email || !password || !selectedRole) {
+      setError('Please enter email, password, and select a role');
+      notifyError('Please enter email, password, and select a role');
+      return;
+    }
 
-      login(user, rememberMe); // Login context handles storage
+    try {
+      const response = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
+
+      if (data.user.role !== selectedRole) {
+        setError('Selected role does not match account role');
+        notifyError('Role mismatch!');
+        return;
+      }
+
+      // Save to context
+      login({ ...data.user, token: data.token }, rememberMe);
 
       notifySuccess('Login successful! Redirecting...');
 
-      // ✅ Redirect based on role to /app/* structure
-      switch (user.role.toLowerCase()) {
+      switch (data.user.role) {
         case 'admin-dashboard':
-            navigate('/app/admin-dashboard');
-            break;
+          navigate('/app/admin-dashboard');
+          break;
         case 'manager-dashboard':
-            navigate('/app/manager-dashboard');
-            break;
+          navigate('/app/manager-dashboard');
+          break;
         case 'employee-dashboard':
-            navigate('/app/employee-dashboard');
-            break;
+          navigate('/app/employee-dashboard');
+          break;
         default:
-            navigate('/unauthorized');
-        }
-        } else {
-      setError('Please enter email, password, and select a role');
-      notifyError('Please enter email, password, and select a role');
+          navigate('/unauthorized');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Invalid credentials or server error');
+      notifyError('Login failed. Please check your credentials.');
     }
   };
 
@@ -94,7 +110,7 @@ const Login = () => {
               items={[
                 { label: 'Admin', value: 'admin-dashboard' },
                 { label: 'Branch Manager', value: 'manager-dashboard' },
-                { label: 'Employee', value: 'employee-dashboard' },
+                { label: 'Employee', value: 'employee-dashboard' }
               ]}
               onSelect={(role) => setSelectedRole(role)}
             />

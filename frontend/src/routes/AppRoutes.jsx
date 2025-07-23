@@ -21,6 +21,9 @@ import CNFForm from '../components/cnf/CNFForm';
 import CNFList from '../components/cnf/CNFList';
 import LoadingPointForm from '../components/loading/LoadingPointForm';
 import LoadingPointList from '../components/loading/LoadingPointList';
+import DueCard from '../components/dues/DueCard'; // Assuming this is the correct path for DueCard component
+import DueForm from '../components/dues/DueForm';
+import DueList from '../components/dues/DueList';
 import CalculatorPage from '../components/Calculator/CalculatorPage'; // Assuming this is the correct path for the calculator page
 
 import BankForm from '../components/banks/BankForm';
@@ -63,6 +66,10 @@ const AppRoutes = () => {
       <Route path="/app/cnfs" element={<CNFList />} />
       <Route path="/app/employees/add" element={<EmployeeForm />} />
       <Route path="/app/employees" element={<EmployeeList />} />
+      <Route path="/app/dues/add" element={<DueForm />} />
+      <Route path="/app/dues/edit/:id" element={<DueForm />} />
+      <Route path="/app/dues" element={<DueList />} />
+      <Route path="/app/dues/card/:id" element={<DueCard />} />
       
       <Route path="/app/banks/add" element={<BankForm />} />
       <Route path="/app/banks/statements" element={<Statements />} />
