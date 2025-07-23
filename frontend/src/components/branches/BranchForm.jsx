@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
+import { createBranch } from '../../services/branchService';
 import TopBar from '../shared/Topbar';
 import SidebarWrapper from '../shared/Sidebar';
 import Footer from '../shared/Footer';
+import { notifySuccess, notifyError } from '../../pages/UI/Toast';
+
+
 const BranchForm = () => {
   const { theme } = useTheme();
+  const { user } = useAuth();
   const isDark = theme === 'dark';
   const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
@@ -23,10 +29,16 @@ const BranchForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Branch form submitted:', formData);
-    navigate('/app/branches');
+    try {
+      await createBranch(formData, user.token);
+      notifySuccess('Branch created successfully!');
+      navigate('/app/branches');
+    } catch (err) {
+      console.error(err);
+      notifyError(err.message || 'Failed to create branch');
+    }
   };
 
   return (
@@ -34,7 +46,7 @@ const BranchForm = () => {
       <SidebarWrapper collapsed={sidebarCollapsed} />
       <div className="flex-1 flex flex-col">
         <TopBar onToggleSidebar={() => setSidebarCollapsed(prev => !prev)} sidebarCollapsed={sidebarCollapsed} />
-        
+
         <div className="flex justify-center items-start px-4 py-10 overflow-auto">
           <div className={`w-full max-w-3xl shadow-lg rounded-xl p-8 transition-all duration-300
             ${isDark ? 'bg-[#1c2a3a] border border-gray-700' : 'bg-white border border-gray-200'}

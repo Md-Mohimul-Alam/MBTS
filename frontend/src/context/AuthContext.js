@@ -2,42 +2,41 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
+const STORAGE_KEY = 'mbtsms-user';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false); // prevent flash before auth state loads
 
-  // On mount, load user from storage
   useEffect(() => {
     const storedUser =
-      JSON.parse(localStorage.getItem('mbtsms-user')) ||
-      JSON.parse(sessionStorage.getItem('mbtsms-user'));
+      JSON.parse(localStorage.getItem(STORAGE_KEY)) ||
+      JSON.parse(sessionStorage.getItem(STORAGE_KEY));
     if (storedUser) {
       setUser(storedUser);
     }
+    setIsLoaded(true); // ✅ mark context ready
   }, []);
 
-  // Pass rememberMe flag to login so storage can be handled here
   const login = (userData, rememberMe = false) => {
     setUser(userData);
-    if (rememberMe) {
-      localStorage.setItem('mbtsms-user', JSON.stringify(userData));
-      sessionStorage.removeItem('mbtsms-user');
-    } else {
-      sessionStorage.setItem('mbtsms-user', JSON.stringify(userData));
-      localStorage.removeItem('mbtsms-user');
-    }
+    const storage = rememberMe ? localStorage : sessionStorage;
+    const altStorage = rememberMe ? sessionStorage : localStorage;
+
+    storage.setItem(STORAGE_KEY, JSON.stringify(userData));
+    altStorage.removeItem(STORAGE_KEY);
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('mbtsms-user');
-    sessionStorage.removeItem('mbtsms-user');
+    localStorage.removeItem(STORAGE_KEY);
+    sessionStorage.removeItem(STORAGE_KEY);
   };
 
   const isAuthenticated = !!user;
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated, isLoaded }}>
       {children}
     </AuthContext.Provider>
   );

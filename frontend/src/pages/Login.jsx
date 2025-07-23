@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import DropdownMenu from './UI/dropdown';
 import { notifySuccess, notifyError } from './UI/Toast';
+import { loginAndStore } from '../services/authService'; // ✅ centralized login handler
 
 const Login = () => {
   const { login } = useAuth();
@@ -18,35 +19,27 @@ const Login = () => {
     e.preventDefault();
 
     if (!email || !password || !selectedRole) {
-      setError('Please enter email, password, and select a role');
-      notifyError('Please enter email, password, and select a role');
+      const msg = 'Please enter email, password, and select a role';
+      setError(msg);
+      notifyError(msg);
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
-
-      const data = await response.json();
+      const data = await loginAndStore(email, password, selectedRole, rememberMe);
 
       if (data.user.role !== selectedRole) {
-        setError('Selected role does not match account role');
-        notifyError('Role mismatch!');
+        const msg = 'Selected role does not match account role';
+        setError(msg);
+        notifyError(msg);
         return;
       }
 
-      // Save to context
+      // Save to global auth context
       login({ ...data.user, token: data.token }, rememberMe);
-
       notifySuccess('Login successful! Redirecting...');
 
+      // Redirect to respective dashboard
       switch (data.user.role) {
         case 'admin-dashboard':
           navigate('/app/admin-dashboard');
@@ -62,8 +55,9 @@ const Login = () => {
       }
     } catch (err) {
       console.error(err);
-      setError('Invalid credentials or server error');
-      notifyError('Login failed. Please check your credentials.');
+      const msg = err.message || 'Login failed. Please try again.';
+      setError(msg);
+      notifyError(msg);
     }
   };
 
@@ -106,7 +100,7 @@ const Login = () => {
           <div>
             <label className="block text-sm font-medium mb-1">Role</label>
             <DropdownMenu
-              buttonLabel="Select Role"
+              buttonLabel={selectedRole ? selectedRole : 'Select Role'}
               items={[
                 { label: 'Admin', value: 'admin-dashboard' },
                 { label: 'Branch Manager', value: 'manager-dashboard' },

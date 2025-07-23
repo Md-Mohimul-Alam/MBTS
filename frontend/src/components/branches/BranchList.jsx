@@ -1,32 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
+import { getBranches } from '../../services/branchService';
 import { Link } from 'react-router-dom';
 import TopBar from '../shared/Topbar';
 import SidebarWrapper from '../shared/Sidebar';
 import Footer from '../shared/Footer';
-
-// Initial branch data
-const initialBranches = [
-  { id: 1, name: 'Chattogram Branch', manager: 'Mr. Ripon Nurul', contact: '01712345678', address: 'Madarbari', establishedAt: '2022-01-15' },
-  { id: 2, name: 'Dhaka Branch', manager: 'Ms. Jahanara', contact: '01898765432', address: 'Uttara', establishedAt: '2023-03-10' },
-];
+import { notifyError } from '../../pages/UI/Toast';
 
 const BranchList = () => {
   const { theme } = useTheme();
+  const { user } = useAuth();
   const isDark = theme === 'dark';
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
-  const [branches, setBranches] = useState(initialBranches);
+  const [branches, setBranches] = useState([]);
 
   const handleToggleSidebar = () => setSidebarCollapsed(prev => !prev);
 
-  const handleDateChange = (id, newDate) => {
-    setBranches(prev =>
-      prev.map(branch =>
-        branch.id === id ? { ...branch, establishedAt: newDate } : branch
-      )
-    );
-  };
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const data = await getBranches(user.token);
+        setBranches(data);
+      } catch (err) {
+        console.error(err);
+        notifyError('Failed to load branches');
+      }
+    };
+    fetchBranches();
+  }, [user.token]);
 
   return (
     <div className={`min-h-screen flex ${isDark ? 'bg-mbts-blue text-white' : 'bg-gray-50 text-gray-900'}`}>
@@ -68,14 +71,7 @@ const BranchList = () => {
                     <td className="p-3">{branch.manager}</td>
                     <td className="p-3">{branch.contact}</td>
                     <td className="p-3">{branch.address}</td>
-                    <td className="p-3">
-                      <input
-                        type="date"
-                        value={branch.establishedAt}
-                        onChange={(e) => handleDateChange(branch.id, e.target.value)}
-                        className={`p-3 text-left rounded border px-2 py-1 text-sm w-full ${isDark ? 'bg-mbts-dark text-white' : 'bg-gray-100 text-gray-700'}`}
-                      />
-                    </td>
+                    <td className="p-3">{branch.establishedAt?.split('T')[0]}</td>
                     <td className="p-3 text-center">
                       <Link
                         to={`/app/branches/edit/${branch.id}`}
@@ -89,12 +85,10 @@ const BranchList = () => {
               </tbody>
             </table>
           </div>
-
         </div>
-      <Footer/>
+        <Footer />
       </div>
     </div>
-    
   );
 };
 
